@@ -4,7 +4,7 @@ import Button from "./Button";
 export default function ProjectSidebar({onStartAddProject, projects, onSelectProject, selectedProject}){
 
     // console.log(onSelectProject)
-    console.log(selectedProject)
+    // console.log(selectedProject)
     return(
         <aside className="w-1/3 bg-stone-900 py-16 px-8 text-stone-50 md:w-72 rounded-r-xl">
             <h2 className="mb-8 font-bold md:text-xl uppercase text-stone-200">Your Project</h2>

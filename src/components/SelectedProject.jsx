@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 
-export default function SelectedProject({project, onDeleteOps}) {
+import Tasks from "./Tasks"
+
+export default function SelectedProject({project, onDeleteOps, onAdd, onDelete, tasks}) {
 
     const formatedDate = new Date(project.dueDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -17,6 +19,7 @@ export default function SelectedProject({project, onDeleteOps}) {
         <p className="mb-4 text-stone-400">{formatedDate}</p>
         <p className="text-stone-600 whitespace-pre-wrap">{project.description}</p>
       </header>
+      <Tasks onAdd={onAdd} onDelete={onDelete} tasks={tasks}/>
     </div>
   )
 }
