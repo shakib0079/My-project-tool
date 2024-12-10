@@ -3,6 +3,7 @@ import { useState } from "react"
 import NoProjectSelected from "./components/NoProjectSelected"
 import ProjectSidebar from "./components/ProjectSidebar"
 import NewProject from "./components/NewProject"
+import SelectedProject from "./components/SelectedProject"
 
 
 function App() {
@@ -11,6 +12,16 @@ function App() {
     selectedProject: undefined,
     projects: []
   })
+
+
+  const selectProjectHandler = (id) => {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProject: id,
+      }
+    })
+  }
 
   const selectedProjectHandler = () => {
     setProjectState((prevState) => {
@@ -26,7 +37,7 @@ function App() {
       setProjectState((prevState) => {
         const newProject = {
           ...project,
-          ID: new Date()
+          ID: Math.random()
         }
 
         return {
@@ -46,9 +57,20 @@ function App() {
     })
   }
 
-  console.log(projectState);
+  const selectedProjectDelation = (id) => {
+    setProjectState((prevState) => {
 
-  let content;
+      return {
+        ...prevState, 
+        projects: prevState.projects.filter((project) => project.ID !== id),
+        selectedProject: undefined
+      }
+    })
+  }
+
+  const selectiveProject = projectState.projects.find((project) => project.ID === projectState.selectedProject)
+
+  let content = <SelectedProject project={selectiveProject} onDeleteOps={selectedProjectDelation}/>;
 
   if(projectState.selectedProject === null){
     content = <NewProject onSave={storeProjectData} onCancel={formCancelHandler}/>
@@ -58,7 +80,7 @@ function App() {
   
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectSidebar onStartAddProject={selectedProjectHandler} projects={projectState.projects}/>
+      <ProjectSidebar onSelectProject={selectProjectHandler} onStartAddProject={selectedProjectHandler} projects={projectState.projects}/>
       {content}
     </main>
   )

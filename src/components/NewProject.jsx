@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
 import Input from "./Input";
+import Modal from "./Modal";
 
 export default function NewProject({onSave, onCancel}){
     const title = useRef();
+    const modal = useRef();
     const description = useRef();
     const dueDate = useRef();
 
@@ -11,7 +13,11 @@ export default function NewProject({onSave, onCancel}){
         const enteredTitle = title.current.value;
         const enteredDescription = description.current.value;
         const enteredDueDate = dueDate.current.value;
-
+        
+        if(enteredTitle.trim() === '' || enteredDescription.trim() === '' || enteredDueDate.trim() === ''){
+            modal.current.open()
+            return;
+        }
 
         onSave({
             title: enteredTitle,
@@ -21,6 +27,11 @@ export default function NewProject({onSave, onCancel}){
     }
 
     return(
+        <>
+        <Modal ref={modal}>
+            <h2 className="text-xl font-bold text-stone-700 my-4">Opps! Invalid Input</h2>
+            <p className="text-stone-600 mb-4">One or more fields are empty! Make sure all input fields are filled!</p>
+        </Modal>
         <div className="w-[35rem] mt-16">
             <menu className="flex gap-4 justify-end items-center">
                 <li><button className="text-stone-800 hover:text-stone-950" onClick={onCancel}>Cancel</button></li>
@@ -32,5 +43,6 @@ export default function NewProject({onSave, onCancel}){
                 <Input type="date"  ref={dueDate} label="Due Date" />
             </div>
         </div>
+        </>
     );
 }
